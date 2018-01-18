@@ -1,0 +1,22 @@
+{
+  "name": "simple-duck",
+  "version": "0.0.1",
+  "description": "Simple implementation of Duck module concept",
+  "main": "lib/index.js",
+  "author": "Alexander Borovkov",
+
+  "license": "ISC",
+  "scripts": {
+    "test": "jest",
+    "compile": "babel --presets es2015 -d lib/ src/",
+    "prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "jest": "^22.1.2",
+    "regenerator-runtime": "^0.11.1"
+  }
+}
