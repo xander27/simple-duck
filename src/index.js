@@ -10,9 +10,6 @@ export default class DuckModule {
      * @param {function} rootSelector selector function to select root of module state from global state
      */
     constructor(prefix, rootSelector) {
-        if (!prefix.endsWith("/")) {
-            prefix += "/";
-        }
         this.prefix = prefix;
         this.rootSelector = rootSelector;
     }
