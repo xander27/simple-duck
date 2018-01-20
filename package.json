@@ -1,6 +1,6 @@
 {
   "name": "simple-duck",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple implementation of Duck module concept",
   "main": "lib/index.js",
   "author": "Alexander Borovkov",
