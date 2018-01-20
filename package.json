@@ -4,8 +4,8 @@
   "description": "Simple implementation of Duck module concept",
   "main": "lib/index.js",
   "author": "Alexander Borovkov",
-
-  "license": "ISC",
+  "homepage": "https://github.com/xander27/simple-duck",
+  "license": "MIT",
   "scripts": {
     "test": "jest",
     "compile": "babel --presets es2015 -d lib/ src/",
