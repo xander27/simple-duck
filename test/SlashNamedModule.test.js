@@ -47,10 +47,10 @@ class TestModule extends SlashNamedModule {
     }
 }
 
-let module = new TestModule("PARENT_MODULE/TEST_MODULE/");
 
 
 test("Selectors and actions", () => {
+    let module = new TestModule("PARENT_MODULE/TEST_MODULE/");
     expect(module.getX(TEST_STATE)).toBe(0);
     expect(module.prefix).toBe("/PARENT_MODULE/TEST_MODULE/");
     let newState = {
@@ -61,4 +61,13 @@ test("Selectors and actions", () => {
         }
     };
     expect(module.getX(newState)).toBe(1);
+});
+
+test("Name fixing", () => {
+    let module = new TestModule("PARENT_MODULE/TEST_MODULE/");
+    expect(module.prefix).toBe("/PARENT_MODULE/TEST_MODULE/");
+    module = new TestModule("/PARENT_MODULE/TEST_MODULE");
+    expect(module.prefix).toBe("/PARENT_MODULE/TEST_MODULE/");
+    module = new TestModule("PARENT_MODULE/TEST_MODULE");
+    expect(module.prefix).toBe("/PARENT_MODULE/TEST_MODULE/");
 });
