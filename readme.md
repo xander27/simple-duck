@@ -45,7 +45,7 @@ class TestModule extends DuckModule {
             case this.INC:
                 return {x: state.x + action.payload};
         }
-        return super.reduce(state);
+        return super.reduce(state, action);
     }
 }
 
@@ -180,5 +180,59 @@ const moduleC = new X10fetchModule("/API/C/", root => root.b, "http://api.com/b"
 const action3 = (dispatch, getState) => Promise.resolve()
     .then(() => dispatch(moduleC.fetch()))
     .then(() => dispatch(someUiModule.setBValue(moduleC.getValue(getState()))));
+
+```
+
+### SlashNamedModule
+You can create slash-named module with following naming conventions:
+
+- module path (prefix) looks like `/FIRST_LEVEL_/MODULE/SECOND_LEVEL_MODULE/...etc`
+- module prefix always strats and ends with `/` symbol
+
+So we can "automagical" generate root selectors based on module name: For example: for prefix '/MODULE_A/SUBMODULE_B' 
+selector will be 
+```javascript
+root => root.moduleA.submoduleB
+```
+ https://lodash.com/docs/#camelCase is used to convert module prefix parts to camelCase.
+ Or you can provide second argument of parent constructor to uses your root selector function as in general `DuckModule` 
+ class 
+
+```javascript
+import {SlashNamedModule} from "simple-duck"
+/**
+ * Test example of duck module
+ */
+class TestModule extends SlashNamedModule {
+    constructor(prefix) {
+        super(prefix);
+        this.INC = this.action("INC")
+    }
+    inc(x = 0) {
+        return {type: this.INC, payload: x}
+    }
+    getX(state) {
+        return this.getRoot(state).x;
+    }
+    reduce(state = {x: 0}, action) {
+        switch (action.type) {
+            case this.INC:
+                return {x: state.x + action.payload};
+        }
+        return super.reduce(state, action);
+    }
+}
+let module = new TestModule("PARENT_MODULE/TEST_MODULE/");
+test("Selectors and actions", () => {
+    expect(module.getX(TEST_STATE)).toBe(0);
+    let newState = {
+        ...TEST_STATE,
+        parentModule:{
+            ...TEST_STATE.parentModule,
+            testModule: module.reduce(module.getRoot(TEST_STATE), module.inc(1))
+        }
+    };
+    expect(module.getX(newState)).toBe(1);
+});
 
 ```

@@ -1,4 +1,4 @@
-import DuckModule, {combineModules} from "../src/index"
+import DuckModule, {combineModules} from "../lib/index"
 
 const TEST_STATE = {
     testModule: {
@@ -47,7 +47,7 @@ class TestModule extends DuckModule {
             case this.INC:
                 return {x: state.x + action.payload};
         }
-        return super.reduce(state);
+        return super.reduce(state, action);
     }
 }
 
