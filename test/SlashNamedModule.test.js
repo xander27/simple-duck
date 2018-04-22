@@ -52,6 +52,7 @@ let module = new TestModule("PARENT_MODULE/TEST_MODULE/");
 
 test("Selectors and actions", () => {
     expect(module.getX(TEST_STATE)).toBe(0);
+    expect(module.prefix).toBe("/PARENT_MODULE/TEST_MODULE/");
     let newState = {
         ...TEST_STATE,
         parentModule:{
