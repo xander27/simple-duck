@@ -7,9 +7,9 @@
   "homepage": "https://github.com/xander27/simple-duck",
   "license": "MIT",
   "scripts": {
-    "test": "yarn run compile && jest",
+    "test": "npm run compile && jest",
     "compile": "babel -d lib/ src/",
-    "prepublish": "yarn run compile"
+    "prepublish": "npm run compile"
   },
   "files": [
     "lib",
