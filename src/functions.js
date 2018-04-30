@@ -12,7 +12,7 @@ import DuckModule from "./DuckModule";
  */
 function combineReducers<S: CombinedState>(reducers: {[string]: ReducerFunction<any>}): ReducerFunction<S> {
     let reducerKeys = Object.keys(reducers);
-    return function combination(state: S, action: Action): any {
+    return (state: S, action: Action): any => {
         let hasChanged = false;
         let nextState = {};
         for (let i = 0; i < reducerKeys.length; i++) {

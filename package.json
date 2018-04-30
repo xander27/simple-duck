@@ -9,7 +9,9 @@
   "scripts": {
     "test": "yarn run compile && jest",
     "compile": "babel -d lib/ src/",
-    "prepublish": "yarn run compile"
+    "prepublish": "yarn run compile && yarn run compile:flow-types",
+    "compile:flow-types": "flow gen-flow-files src/index.js > lib/index.js.flow && npm run fix-flow-issue-2830",
+    "fix-flow-issue-2830": "replace-in-file \"/default function(\\(.*\\)):/\" \"default \\$1 =>\" lib/index.js.flow --isRegex"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -19,7 +21,8 @@
     "babel-preset-flow": "^6.23.0",
     "flow-bin": "^0.71.0",
     "jest": "^22.1.2",
-    "regenerator-runtime": "^0.11.1"
+    "regenerator-runtime": "^0.11.1",
+    "replace-in-file": "^3.4.0"
   },
   "keywords": [
     "redux",
