@@ -1,11 +1,18 @@
+'use strict';
+// @flow
+
+import type {Action, ReducerFunction, CombinedState} from "./types";
+import DuckModule from "./DuckModule";
+
+
 /**
  * Based on https://github.com/wesleytodd/combine-reducers/blob/master/src/index.js
  * @param {object} reducers
  * @returns {function}
  */
-function combineReducers(reducers = {}) {
+function combineReducers<S: CombinedState>(reducers: {[string]: ReducerFunction<any>}): ReducerFunction<S> {
     let reducerKeys = Object.keys(reducers);
-    return function combination(state = {}, action) {
+    return function combination(state: S, action: Action): any {
         let hasChanged = false;
         let nextState = {};
         for (let i = 0; i < reducerKeys.length; i++) {
@@ -22,10 +29,10 @@ function combineReducers(reducers = {}) {
  * @param {object} modules
  * @returns {function}
  */
-export function combineModules(modules) {
+export function combineModules<S: CombinedState>(modules: {[string]: DuckModule<any>|ReducerFunction<any>}): ReducerFunction<S> {
     let result = {};
     for (let key of Object.keys(modules)) {
-        let module = modules[key];
+        let module: DuckModule<any> | ReducerFunction<any> = modules[key];
         if (typeof module === 'function') {
             result[key] = module;
             continue;

@@ -7,15 +7,17 @@
   "homepage": "https://github.com/xander27/simple-duck",
   "license": "MIT",
   "scripts": {
-    "test": "npm run compile && jest",
-    "compile": "babel --presets es2015 -d lib/ src/",
-    "prepublish": "npm run compile"
+    "test": "yarn run compile && jest",
+    "compile": "babel -d lib/ src/",
+    "prepublish": "yarn run compile"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-jest": "^22.1.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-flow": "^6.23.0",
+    "flow-bin": "^0.71.0",
     "jest": "^22.1.2",
     "regenerator-runtime": "^0.11.1"
   },

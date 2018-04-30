@@ -1,4 +1,10 @@
-import {SlashNamedModule} from "../lib/index"
+// @flow
+
+import {SlashNamedModule} from '../src/index'
+import type {Action} from '../src/types';
+const {test, expect} = global;
+
+type SlashNamedModuleState = {| x: number |};
 
 const TEST_STATE = {
     parentModule: {
@@ -10,11 +16,13 @@ const TEST_STATE = {
 /**
  * Test example of duck module
  */
-class TestModule extends SlashNamedModule {
+class TestModule extends SlashNamedModule<SlashNamedModuleState> {
 
-    constructor(prefix) {
+    INC: string;
+
+    constructor(prefix: string) {
         super(prefix);
-        this.INC = this.action("INC")
+        this.INC = this.action('INC')
     }
 
     /**
@@ -22,7 +30,7 @@ class TestModule extends SlashNamedModule {
      * @param {number} x
      * @returns {{type: string|*, payload: *}}
      */
-    inc(x = 0) {
+    inc(x: number = 0): Action {
         return {type: this.INC, payload: x}
     }
 
@@ -30,7 +38,7 @@ class TestModule extends SlashNamedModule {
      * Selector for X value
      * @param state
      */
-    getX(state) {
+    getX(state: {}): number {
         return this.getRoot(state).x;
     }
 
@@ -38,7 +46,7 @@ class TestModule extends SlashNamedModule {
     /**
      * Reducer function
      */
-    reduce(state = {x: 0}, action) {
+    reduce(state = {x: 0}, action: Action): SlashNamedModuleState {
         switch (action.type) {
             case this.INC:
                 return {x: state.x + action.payload};
@@ -48,14 +56,13 @@ class TestModule extends SlashNamedModule {
 }
 
 
-
-test("Selectors and actions", () => {
-    let module = new TestModule("PARENT_MODULE/TEST_MODULE/");
+test('Selectors and actions', () => {
+    let module = new TestModule('PARENT_MODULE/TEST_MODULE/');
     expect(module.getX(TEST_STATE)).toBe(0);
-    expect(module.prefix).toBe("/PARENT_MODULE/TEST_MODULE/");
+    expect(module.prefix).toBe('/PARENT_MODULE/TEST_MODULE/');
     let newState = {
         ...TEST_STATE,
-        parentModule:{
+        parentModule: {
             ...TEST_STATE.parentModule,
             testModule: module.reduce(module.getRoot(TEST_STATE), module.inc(1))
         }
@@ -63,11 +70,11 @@ test("Selectors and actions", () => {
     expect(module.getX(newState)).toBe(1);
 });
 
-test("Name fixing", () => {
-    let module = new TestModule("PARENT_MODULE/TEST_MODULE/");
-    expect(module.prefix).toBe("/PARENT_MODULE/TEST_MODULE/");
-    module = new TestModule("/PARENT_MODULE/TEST_MODULE");
-    expect(module.prefix).toBe("/PARENT_MODULE/TEST_MODULE/");
-    module = new TestModule("PARENT_MODULE/TEST_MODULE");
-    expect(module.prefix).toBe("/PARENT_MODULE/TEST_MODULE/");
+test('Name fixing', () => {
+    let module = new TestModule('PARENT_MODULE/TEST_MODULE/');
+    expect(module.prefix).toBe('/PARENT_MODULE/TEST_MODULE/');
+    module = new TestModule('/PARENT_MODULE/TEST_MODULE');
+    expect(module.prefix).toBe('/PARENT_MODULE/TEST_MODULE/');
+    module = new TestModule('PARENT_MODULE/TEST_MODULE');
+    expect(module.prefix).toBe('/PARENT_MODULE/TEST_MODULE/');
 });
