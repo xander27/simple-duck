@@ -1,7 +1,7 @@
 // @flow
 
-import {SlashNamedModule} from '../src/index'
-import type {Action} from '../src/types';
+import {SlashNamedModule} from '../lib/index'
+import type {Action} from '../lib/index';
 const {test, expect} = global;
 
 type SlashNamedModuleState = {| x: number |};

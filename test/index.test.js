@@ -1,7 +1,7 @@
 'use strict';
 // @flow
-import DuckModule, {combineModules} from '../src/index'
-import type {Action, RootSelector} from "../src/types";
+import DuckModule, {combineModules} from '../lib'
+import type {Action, RootSelector} from "../lib";
 
 const {test, expect} = global;
 type TestModuleState = {| x: number |};

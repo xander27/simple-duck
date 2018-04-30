@@ -8,17 +8,19 @@
   "license": "MIT",
   "scripts": {
     "test": "yarn run compile && jest",
-    "compile": "babel -d lib/ src/ && copyfiles src/types.js lib --flat",
-    "prepublish": "yarn run compile && yarn run compile:flow-types",
-    "compile:flow-types": "flow gen-flow-files src/index.js > lib/index.js.flow"
+    "compile": "babel -d lib/ src/",
+    "prepublish": "yarn run compile"
   },
+  "files": [
+    "lib",
+    "flow-typed"
+  ],
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-jest": "^22.1.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-flow": "^6.23.0",
-    "copyfiles": "^2.0.0",
     "flow-bin": "^0.71.0",
     "jest": "^22.1.2",
     "regenerator-runtime": "^0.11.1",
