@@ -10,7 +10,7 @@ import DuckModule from "./DuckModule";
  * @param {object} reducers
  * @returns {function}
  */
-function combineReducers<S: CombinedState>(reducers: {[string]: ReducerFunction<any>}): ReducerFunction<S> {
+function combineReducers<S: CombinedState>(reducers: {[string]: ReducerFunction<any>} = {}): ReducerFunction<S> {
     let reducerKeys = Object.keys(reducers);
     return (state: S, action: Action): any => {
         let hasChanged = false;

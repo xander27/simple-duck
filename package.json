@@ -1,6 +1,6 @@
 {
   "name": "simple-duck",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Simple implementation of Duck module concept",
   "main": "lib/index.js",
   "author": "Alexander Borovkov",
@@ -22,7 +22,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-flow": "^6.23.0",
     "flow-bin": "^0.95.1",
-    "jest": "^24.5.0",
+    "jest": "^24.8.0",
     "regenerator-runtime": "^0.13.2",
     "replace-in-file": "^3.4.4"
   },
