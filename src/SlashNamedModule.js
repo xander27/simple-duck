@@ -3,9 +3,8 @@
 import get from 'lodash.get'
 import camelCase from 'lodash.camelcase'
 import DuckModule from './index';
-import type {RootSelector} from "./types";
 
-function fixPrefix(prefix: string): string {
+function fixPrefix(prefix) {
     if (!prefix) {
         throw Error(`Invalid prefix '${prefix}'`);
     }
@@ -19,7 +18,7 @@ function fixPrefix(prefix: string): string {
     return result;
 }
 
-function createRootSelector<R>(prefix: string): RootSelector<R> {
+function createRootSelector(prefix) {
     const path = fixPrefix(prefix)
         .slice(1, prefix.length)
         .split('/')
@@ -32,8 +31,7 @@ function createRootSelector<R>(prefix: string): RootSelector<R> {
  * @author xander27
  * Class for modules where name is slash-separated path to module in root state. (e.g '/MODULE_A/SUBMODULE_B')
  */
-export default class SlashNamedModule<R> extends DuckModule<R> {
-
+export default class SlashNamedModule extends DuckModule {
 
     /**
      * Create new slash name module
@@ -42,7 +40,7 @@ export default class SlashNamedModule<R> extends DuckModule<R> {
      * prefix. For example: for prefix '/MODULE_A/SUBMODULE_B' selector will be root => root.moduleA.submoduleB.
      * https://lodash.com/docs/#camelCase is used to convert to camelCase
      */
-    constructor(prefix: string, rootSelector?: RootSelector<R>) {
+    constructor(prefix, rootSelector) {
         super(fixPrefix(prefix), rootSelector ? rootSelector : createRootSelector(prefix));
     }
 
@@ -52,7 +50,7 @@ export default class SlashNamedModule<R> extends DuckModule<R> {
      * @param {string} name action name
      * @return {string}
      */
-    action(name: string): string {
+    action(name) {
         return this.prefix + (name.startsWith('/') ? name.slice(1, name.length) : name);
     }
 }

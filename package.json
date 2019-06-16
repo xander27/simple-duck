@@ -12,19 +12,15 @@
     "prepublish": "yarn compile"
   },
   "files": [
-    "lib",
-    "flow-typed"
+    "lib"
   ],
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^23.4.2",
-    "flow-bin": "^0.95.1",
-    "jest": "^24.8.0",
-    "regenerator-runtime": "^0.13.2",
-    "replace-in-file": "^3.4.4"
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0"
   },
   "keywords": [
     "redux",

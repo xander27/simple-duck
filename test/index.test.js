@@ -1,14 +1,8 @@
 'use strict';
 // @flow
-import DuckModule, {combineModules} from '../lib'
-import type {Action, RootSelector} from "../lib";
+import DuckModule, { combineModules } from '../lib'
 
-const {test, expect} = global;
-type TestModuleState = {| x: number |};
-type RegularModuleState = {| y: number |};
-type AllState = {testModule: TestModuleState, regularModule: RegularModuleState}
-
-const TEST_STATE: AllState = {
+const TEST_STATE = {
     testModule: {
         x: 0
     },
@@ -17,16 +11,14 @@ const TEST_STATE: AllState = {
     }
 };
 
-const TEST_MODULE_DEFAULT_STATE = {x: 0};
+const TEST_MODULE_DEFAULT_STATE = { x: 0 };
 
 /**
  * Test example of duck module
  */
-class TestModule extends DuckModule<TestModuleState> {
+class TestModule extends DuckModule {
 
-    INC: string;
-
-    constructor(prefix: string, rootSelector: RootSelector<TestModuleState>) {
+    constructor(prefix, rootSelector) {
         super(prefix, rootSelector);
         this.INC = this.prefix + 'INC'; // action name
     }
@@ -36,26 +28,25 @@ class TestModule extends DuckModule<TestModuleState> {
      * @param {number} x
      * @returns {{type: string|*, payload: *}}
      */
-    inc(x: number = 0): Action {
-        return {type: this.INC, payload: x}
+    inc(x) {
+        return { type: this.INC, payload: x }
     }
 
     /**
      * Selector for X value
      * @param state
      */
-    getX(state: {}): number {
+    getX(state) {
         return this.getRoot(state).x;
     }
-
 
     /**
      * Reducer function
      */
-    reduce(state: TestModuleState = TEST_MODULE_DEFAULT_STATE, action: Action): TestModuleState {
+    reduce(state = TEST_MODULE_DEFAULT_STATE, action) {
         switch (action.type) {
             case this.INC:
-                return {x: state.x + action.payload};
+                return { x: state.x + action.payload };
         }
         return super.reduce(state, action);
     }
@@ -63,9 +54,8 @@ class TestModule extends DuckModule<TestModuleState> {
 
 let module = new TestModule(
     '/TEST/', // ALL actions names will start with '/TEST/'.
-    (root: {testModule: TestModuleState}) => root.testModule // Base selector to get root state of module from application state
+    root => root.testModule // Base selector to get root state of module from application state
 );
-
 
 test('Selectors and actions', () => {
     expect(module.getX(TEST_STATE)).toBe(0);
@@ -78,15 +68,15 @@ test('Selectors and actions', () => {
 
 test('Combine modules', () => {
     let duckModule = new TestModule('/TEST/', root => root.testModule);
-    let reducer = function (state: RegularModuleState, action: Action): RegularModuleState {
+    let reducer = function (state, action) {
         switch (action.type) {
             case 'DEC':
-                return ({y: state.y - 1}: RegularModuleState);
+                return { y: state.y - 1 };
         }
         return state;
     };
-    let combined = combineModules({testModule: duckModule, regularModule: reducer});
-    let newState = combined(TEST_STATE, {type: 'DEC'});
+    let combined = combineModules({ testModule: duckModule, regularModule: reducer });
+    let newState = combined(TEST_STATE, { type: 'DEC' });
     newState = combined(newState, duckModule.inc(1));
     expect(newState.regularModule.y).toBe(-1);
     expect(duckModule.getX(newState)).toBe(1);
